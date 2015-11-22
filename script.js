@@ -4,6 +4,10 @@ var error;
 
 $('#calculate-btn').click(function() {
   var num = Big($('#input-number').val());
+  if (!sieve) {
+    alert("Generate a sieve first!");
+    return;
+  }
   start_time = new Date().getTime();
   error = false;
   if (num.gt(9007199254740992))
