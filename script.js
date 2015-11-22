@@ -16,7 +16,9 @@ $('#calculate-btn').click(function() {
 
 function big_factor(num) {
   var diviser = get_big_diviser(num);
-  if (num.eq(diviser))
+  if (num.eq(1))
+    $('#calculations-div').text(num + " is pretty cool!");
+  else if (num.eq(diviser))
     $('#calculations-div').text(num + " is a prime number!");
   else {
     var power = 1, last_diviser = diviser;
@@ -43,7 +45,9 @@ function big_factor(num) {
 
 function factor(num) {
   var diviser = get_diviser(num);
-  if (num == diviser)
+  if (num == 1)
+    $('#calculations-div').text(num + " is pretty cool!");
+  else if (num == diviser)
     $('#calculations-div').text(num + " is a prime number!");
   else {
     var power = 1, last_diviser = diviser;
