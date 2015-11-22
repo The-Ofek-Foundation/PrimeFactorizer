@@ -59,5 +59,7 @@ function get_diviser(num) {
   for (var i = 0; i <= end; i++)
     if (sieve[i] && num % (i + 1) === 0)
       return i + 1;
+  if (sieve.length < end)
+    alert("Error possible, try increasing the sieve");
   return num;
 }
