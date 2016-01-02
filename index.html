@@ -3,13 +3,15 @@
 <head>
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://rawgit.com/MikeMcl/big.js/master/big.min.js"></script>
-<!-- let's hope this works -->
 <meta name="description" content="Prime Factorizer">
   <meta charset="utf-8">
   <title>Ofek's Factorization</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+  <div class="header">
+    Back to <a href="/">The Ofek Foundation</a>
+  </div>
   <h1>Prime Number Factorizer</h1>
   <div id="main-content">
     <input id="sieve-size" placeholder="enter the max number range"></input>
@@ -18,6 +20,8 @@
     <br /><br />
     <input id="input-number" placeholder="enter your number here"></input>
     <button id="calculate-btn">Factorize</button>
+    <button id="pdp">PDP</button>
+    <button id="clear">C</button>
     <br />
     <h3 id="calculation-status">Result:</h3>
     <div id="calculations-div">???</div>
