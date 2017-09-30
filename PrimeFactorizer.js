@@ -2,8 +2,12 @@ var sieve;
 var startTime;
 var error;
 
-$('#calculate-btn').click(function() {
-	var num = Big($('#input-number').val());
+var calcDivElem = getElemId('calculations-div');
+var timeDivElem = getElemId('time-div');
+var seiveGeneratedElem = getElemId('sieve-generated');
+
+function calculate() {
+	var num = Big(getInputValue('input-number'));
 	if (!sieve) {
 		alert("Generate a sieve first!");
 		return;
@@ -15,14 +19,14 @@ $('#calculate-btn').click(function() {
 		factors = bigFactor(num);
 	else factors = factor(Math.round(num));
 	if (factors === 0)
-		$('#calculations-div').text(num + " is pretty cool!");
+		setElemText(calcDivElem, num + " is pretty cool!");
 	else if (factors == 1)
-		$('#calculations-div').text(num + " is a prime number!");
-	else $('#calculations-div').text(factors);
-	$('#time-div').text("Time Elapsed: " + (new Date().getTime() - startTime) / 1000 + " seconds");
+		setElemText(calcDivElem, num + " is a prime number!");
+	else setElemText(calcDivElem, factors);
+	setElemText('time-div', "Time Elapsed: " + (new Date().getTime() - startTime) / 1000 + " seconds");
 	if (error)
 		alert("Error possible, try increasing the sieve");
-});
+}
 
 function bigFactor(num) {
 	var diviser = getBigDiviser(num);
@@ -82,18 +86,18 @@ function factor(num) {
 	}
 }
 
-$('#create-sieve').click(function() {
-	$('#sieve-generated').text("Generating...");
+function generateSieve() {
+	setElemText(seiveGeneratedElem, "Generating...");
 	setTimeout(function() {
-		var length = Math.floor(Math.sqrt($('#sieve-size').val()));
+		var length = Math.floor(Math.sqrt(getInputValue('sieve-size')));
 		sieve = new Array(length);
 		sieve[0] = false;
 		for (var i = 1; i < length; i++)
 			sieve[i] = true;
 		createSieve();
-		$('#sieve-generated').text("Generated");
+		setElemText(seiveGeneratedElem, "Generated");
 	}, 20);
-});
+}
 
 function createSieve() {
 	for (var i = 0; i < sieve.length; i++)
@@ -130,27 +134,28 @@ function getDiviser(num) {
 	return num;
 }
 
-function clear() {
-	$('.falling-number').remove();
+function cc() {
+	var fs = getElemsClass('falling-number');
+	for (var i = 0; i < fs.length; i++)
+		fs[i].remove();
 }
-
-$('#clear').click(clear);
 
 function falldownNumber(previousNumbers, symbol) {
-	var falldown = $('<div class="falling-number"></div>').text(String(previousNumbers).replace(/,/g, symbol));
-	$('body').append(falldown);
-	var top = $(window).outerHeight(true);
-	$('.falling-number').each(function() {
-		top -= $(this).outerHeight();
-	});
-	falldown.animate({top: top}, 10000, 'linear');
+	var falldown = createElem("div");
+	addClassElem(falldown, 'falling-number');
+	setElemText(falldown, String(previousNumbers).replace(/,/g, symbol));
+	getElemTagName('body').appendChild(falldown);
+	var top = getWindowHeight();
+	for (item of getElemsClass('falling-number'))
+		top -= getElemHeight(item);
+	setElemStyle(falldown, 'top', top + 'px');
 }
 
-$('#pdp').click(function() {
+function pdp() {
 	if (sieve)
-		primeDiviserPrime($('#input-number').val());
+		primeDiviserPrime(getInputValue('input-number'));
 	else alert("Generate a sieve first!");
-});
+};
 
 function primeDiviserPrime(num) {
 	var steps = -1;
@@ -167,8 +172,8 @@ function primeDiviserPrime(num) {
 		num = factorsToNum(factors);
 		previousNumbers.push(num);
 	} while (factors !== 0 && factors != 1);
-	$('#time-div').text("Time Elapsed: " + (new Date().getTime() - startTime) / 1000 + " seconds");
-	$('#calculations-div').text("Num Steps: " + steps);
+	setElemText(timeDivElem, "Time Elapsed: " + (new Date().getTime() - startTime) / 1000 + " seconds")
+	setElemText(calcDivElem, "Num Steps: " + steps)
 	if (error)
 		falldownNumber(previousNumbers, " ?> ");
 	else falldownNumber(previousNumbers, " > ");
